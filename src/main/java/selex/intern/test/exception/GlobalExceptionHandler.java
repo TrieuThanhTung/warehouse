@@ -59,4 +59,13 @@ public class GlobalExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(WareHouseException.class)
+    public ResponseEntity<ErrorMessage> wareHouseExceptionHandler(WareHouseException exception,
+                                                             WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),
+                exception.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
 }
