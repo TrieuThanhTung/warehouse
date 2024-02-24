@@ -1,5 +1,6 @@
 package selex.intern.test.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,10 @@ public class WarehouseController {
     @Autowired
     private WarehouseService wareHouseService;
 
+    @Operation(
+            summary = "Add new warehouse",
+            description = "Only Admin can add a new warehouse"
+    )
     @PostMapping()
     public ResponseEntity<GenericResponse> addNewWareHouse(@Valid @RequestBody WarehouseDto wareHouseData) throws WarehouseException {
         Warehouse wareHouse =  wareHouseService.addWareHouse(wareHouseData);
@@ -29,6 +34,10 @@ public class WarehouseController {
         return ResponseEntity.ok(new GenericResponse(Message.ADD_SUCCESSFULLY, wareHouse));
     }
 
+    @Operation(
+            summary = "Get all warehouses",
+            description = "Only Admin can get all warehouses"
+    )
     @GetMapping()
     public ResponseEntity<GenericResponse> getAllWareHouseHandler() {
         List<Warehouse> wareHouseList = wareHouseService.getAllWareHouse();
@@ -36,6 +45,10 @@ public class WarehouseController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, wareHouseList));
     }
 
+    @Operation(
+            summary = "Get a warehouse by id",
+            description = "Only admin can get a warehouse by id"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<GenericResponse> getWareHouseByIdHandler(@PathVariable("id") Integer id)
             throws WarehouseException {
@@ -44,6 +57,10 @@ public class WarehouseController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, wareHouse));
     }
 
+    @Operation(
+            summary = "Change warehouse information by id",
+            description = "Only admin can change a warehouse by id"
+    )
     @PutMapping("/{id}")
     public ResponseEntity<GenericResponse> changeWareHouseHandler(@PathVariable("id") Integer id,
                                                                       @Valid @RequestBody WarehouseDto wareHouseData)
@@ -53,6 +70,10 @@ public class WarehouseController {
         return ResponseEntity.ok(new GenericResponse(Message.CHANGE_SUCCESSFULLY, wareHouse));
     }
 
+    @Operation(
+            summary = "Remove warehouse by id",
+            description = "Only admin can remove warehouse by id"
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteWareHouseByIdHandler(@PathVariable("id") Integer id)
             throws WarehouseException {

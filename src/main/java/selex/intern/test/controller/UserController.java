@@ -1,5 +1,6 @@
 package selex.intern.test.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(
+            summary = "Get all users",
+            description = "Only admin can get all users"
+    )
     @GetMapping()
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<GenericResponse>  getAllUsersHandler() {
@@ -30,6 +35,9 @@ public class UserController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, userList));
     }
 
+    @Operation(
+            summary = "Get profile"
+    )
     @GetMapping("/profile")
     public ResponseEntity<GenericResponse>  getProfileUsersHandler() throws UserException {
         UserEntity user = userService.getCurrentUser();
@@ -37,6 +45,9 @@ public class UserController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, user));
     }
 
+    @Operation(
+            summary = "Change profile"
+    )
     @PutMapping
     public ResponseEntity<GenericResponse> changeProfileHandler(@Valid @RequestBody ChangeProfileDto changeProfileDto)
             throws UserException {
@@ -45,6 +56,10 @@ public class UserController {
         return ResponseEntity.ok(new GenericResponse(Message.CHANGE_SUCCESSFULLY, user));
     }
 
+    @Operation(
+            summary = "Remove user by id",
+            description = "Only admin can remove user"
+    )
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<MessageResponse> deleteUserHandler(@PathVariable("id") Integer id) throws UserException {

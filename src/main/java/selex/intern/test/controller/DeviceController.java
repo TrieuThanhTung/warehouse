@@ -1,5 +1,6 @@
 package selex.intern.test.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,10 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @Operation(
+            summary = "Add new device",
+            description = "Both user and admin can add a new device"
+    )
     @PostMapping()
     public ResponseEntity<GenericResponse> addNewDeviceHandler(@Valid @RequestBody DeviceDto deviceData)
             throws WarehouseException, UserException, DeviceException {
@@ -31,6 +36,10 @@ public class DeviceController {
         return ResponseEntity.ok(new GenericResponse(Message.ADD_SUCCESSFULLY, device));
     }
 
+    @Operation(
+            summary = "Get all devices",
+            description = "Only admin can get all devices"
+    )
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<GenericResponse> getAllDeviceHandler() {
@@ -39,6 +48,10 @@ public class DeviceController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, deviceList));
     }
 
+    @Operation(
+            summary = "Get device by id",
+            description = "Users can only retrieve authorized devices. Admin can retrieve all devices"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<GenericResponse> getDeviceByIdHandler(@PathVariable("id") Integer id)
             throws UserException, DeviceException {
@@ -47,6 +60,10 @@ public class DeviceController {
         return ResponseEntity.ok(new GenericResponse(Message.GET_SUCCESSFULLY, device));
     }
 
+    @Operation(
+            summary = "Change device information",
+            description = "Users can only change authorized devices. Admin can change all devices"
+    )
     @PutMapping("/{id}")
     public ResponseEntity<GenericResponse> changeDeviceByIdHandler(@PathVariable("id") Integer id,
                                                                    @RequestBody DeviceDto deviceDto)
@@ -56,6 +73,10 @@ public class DeviceController {
         return ResponseEntity.ok(new GenericResponse(Message.CHANGE_SUCCESSFULLY, device));
     }
 
+    @Operation(
+            summary = "Remove device",
+            description = "Users can only remove authorized devices. Admin can remove all devices"
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteDeviceByIdHandler(@PathVariable("id") Integer id)
             throws UserException, DeviceException {

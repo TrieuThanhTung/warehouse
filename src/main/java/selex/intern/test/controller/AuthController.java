@@ -1,5 +1,6 @@
 package selex.intern.test.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Operation(summary = "Register user")
     @PostMapping("/register")
     public ResponseEntity<MessageResponse> registerHandler(@Valid @RequestBody UserDto user) throws UserException {
          authService.registerUser(user);
@@ -30,6 +32,7 @@ public class AuthController {
         return new ResponseEntity<>(new MessageResponse(Message.REGISTER_SUCCESSFULLY), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Login user")
     @PostMapping("/login")
     public ResponseEntity<GenericResponse> loginHandler(@Valid @RequestBody LoginDto loginData) throws UserException {
         String token = authService.loginUser(loginData);
