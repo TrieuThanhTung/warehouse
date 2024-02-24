@@ -60,9 +60,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(WareHouseException.class)
-    public ResponseEntity<ErrorMessage> wareHouseExceptionHandler(WareHouseException exception,
-                                                             WebRequest request) {
+    @ExceptionHandler(WarehouseException.class)
+    public ResponseEntity<ErrorMessage> wareHouseExceptionHandler(WarehouseException exception,
+                                                                  WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),
+                exception.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DeviceException.class)
+    public ResponseEntity<ErrorMessage> deviceExceptionHandler(DeviceException exception,
+                                                                  WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),
                 exception.getMessage(),
                 request.getDescription(false));

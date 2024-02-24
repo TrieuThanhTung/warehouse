@@ -18,7 +18,7 @@ public class Device {
     private String name;
     private Integer quantity;
     @ManyToOne
-    private WareHouse wareHouse;
+    private Warehouse wareHouse;
     @ManyToMany
     @JoinTable(
             name = "device_user",

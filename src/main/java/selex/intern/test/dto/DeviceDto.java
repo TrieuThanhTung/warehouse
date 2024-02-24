@@ -6,4 +6,5 @@ import lombok.Data;
 public class DeviceDto {
     private String name;
     private Integer quantity;
+    private Integer warehouseId;
 }
