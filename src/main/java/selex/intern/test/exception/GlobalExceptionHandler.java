@@ -6,6 +6,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import selex.intern.test.shared.ErrorMessage;
@@ -52,6 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorMessage> userExceptionHandler(UserException exception,
                                                              WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),
@@ -61,6 +63,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(WarehouseException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorMessage> wareHouseExceptionHandler(WarehouseException exception,
                                                                   WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),
@@ -70,6 +73,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DeviceException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorMessage> deviceExceptionHandler(DeviceException exception,
                                                                   WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now(),

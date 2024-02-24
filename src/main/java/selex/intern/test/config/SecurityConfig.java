@@ -25,6 +25,13 @@ import selex.intern.test.security.JwtAuthenticationFilter;
 public class SecurityConfig {
     @Autowired
     private JwtAuthEntryPoint jwtAuthEntryPoint;
+
+    private final String[] WHITE_LIST_URLS = {
+            "/v3/api-docs.yaml",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -35,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req
                                 .requestMatchers( "/api/v1/auth/**").permitAll()
+                                .requestMatchers(WHITE_LIST_URLS).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
